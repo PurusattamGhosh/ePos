@@ -3,8 +3,9 @@ import React from 'react'
 import { TextInput,Button } from 'react-native-paper';
 import Styles from '../components/Styles'
 
-const LogIn = () => {
-  return (
+const LogIn = (props) => {
+   const {navigation} = props;
+    return (
     <View style={Styles.maincontainer}>
       <View style={styles.loginMain}>
         <View style={styles.poster}>
@@ -30,7 +31,9 @@ const LogIn = () => {
                 mode="outlined"
                 style={styles.loginFormPlaceholder}
             /> 
-            <Button mode="contained"  style={styles.LogInButton}>
+            <Button mode="contained"  style={styles.LogInButton}
+                onPress={()=>navigation.navigate('product')}
+            >
                 <Text style={{fontSize:20}}>LogIn</Text>
             </Button>
         </View>
