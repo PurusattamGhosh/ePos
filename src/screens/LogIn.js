@@ -86,7 +86,10 @@ const styles = StyleSheet.create({
         width:"10%",
         alignSelf:"center",
         marginBottom:2,
-        borderRadius:2
+        borderRadius:100,
+        overflow:"hidden",
+        borderColor:"black",
+        borderWidth:2
     },
     LogInButton:{
         width:"100%",
