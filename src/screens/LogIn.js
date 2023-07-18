@@ -19,17 +19,19 @@ const LogIn = (props) => {
             style={styles.loginFormLogo}
             />
             <Text style={styles.loginFormHeading}>SignIn</Text>
-            <Text style={styles.loginFormFieldDescription}>Username</Text>
+            {/* <Text style={styles.loginFormFieldDescription}>Username</Text> */}
             <TextInput
                 label="Email"
                 mode="outlined"
                 style={styles.loginFormPlaceholder}
+                left={<TextInput.Icon icon="account"/>}
             />    
-            <Text style={styles.loginFormFieldDescription}>Password</Text>
+            {/* <Text style={styles.loginFormFieldDescription}>Password</Text> */}
             <TextInput
                 label="Password"
                 mode="outlined"
                 style={styles.loginFormPlaceholder}
+                left={<TextInput.Icon icon="lock"/>}
             /> 
             <Button mode="contained"  style={styles.LogInButton}
                 onPress={()=>navigation.navigate('product')}
