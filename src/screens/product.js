@@ -1,87 +1,153 @@
-import { StyleSheet, Text, View, Image,ScrollView } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
 import { Button } from 'react-native-paper'
 import Styles from '../components/Styles'
 import Catagory from '../components/Catagories'
+import { FlatList } from 'react-native-web'
+import Menus from '../components/Menus'
 
-const product = ({navigation}) => {
-  return (
-    <View style={Styles.maincontainer}>
-      <View style={styles.prductMain}>
-        <ScrollView style={[styles.productCatagory,styles.shadowProp]}>
-            <Text style={styles.productSubHeading}>Catagory</Text>
-            {
-                Catagory.map((element, index) =>(
-                    <>
-                        <View style={[styles.prductCatagoryElement,styles.shadowProp]}>
-                            <Image source={element.url} style={styles.productCatagoryElementLogo}/>
-                            <Text style={{fontSize:20, marginLeft:'2%'}}>
-                                {element.name}
-                            </Text>
+const product = ({ navigation }) => {
+    const [selectedMenu, setSelectedMenu] = useState({})
+    console.log(selectedMenu)
+    return (
+        <View style={Styles.maincontainer}>
+            <View style={styles.prductMain}>
+                <ScrollView style={[styles.productCatagory, styles.shadowProp]}>
+                    <Text style={styles.productSubHeading}>Catagory</Text>
+                    {
+                        Catagory.map((element, index) => (
+                            <>
+                                <TouchableOpacity key={index}>
+                                    <View style={[styles.prductCatagoryElement, styles.shadowProp]}>
+                                        <Image source={element.url} style={styles.productCatagoryElementLogo} />
+                                        <Text style={{ fontSize: 20, marginLeft: '2%' }}>
+                                            {element.name}
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </>
+                        ))
+                    }
+                </ScrollView>
+                <View style={[styles.productMenu, styles.shadowProp]}>
+                    <Text style={styles.productSubHeading}>Menu</Text>
+                    <FlatList
+                        data={Menus.Burger}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                style={{
+                                    flex: 1,
+                                    flexDirection: 'column',
+                                    margin: 6,
+                                    height: "100px"
+                                }}
+                                onPress={() => {
+                                    setSelectedMenu((prevSelectedMenu) => ({
+                                        ...prevSelectedMenu,
+                                        [item.id]: { name: item.name, qnt: 1 }
+                                    }));
+                                }}
+                            >
+                                <View style={[{ flex: 1, flexDirection: "row", justifyContent: "space-around" }, styles.shadowProp]}>
+                                    <View style={{ justifyContent: "space-around", flex: 1, alignItems: "center" }}>
+                                        <Image source={item.url} style={{ height: 50, width: 50 }} />
+                                        <Text style={{ fontSize: 20 }}>{item.name}</Text>
+                                    </View>
+                                    <View style={{ justifyContent: "space-around", flex: 1 }}>
+                                        <Text style={{ fontSize: 15, textAlign: "left" }}>{item.desc}</Text>
+                                        <Text style={{ fontSize: 15, textAlign: "left" }}>{item.price}</Text>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
+                        )}
+                        keyExtractor={(item) => item.id}
+                        numColumns={3}
+                        horizontal={false}
+                        scrollEnabled={true}
+                    />
+                </View>
+                <View style={[styles.productCart, styles.shadowProp]}>
+                    <Text style={styles.productSubHeading}>Cart</Text>
+                    <View style={{ flex: 1, flexDirection: "column" }}>
+                        <View style={[{ flex: 3 }, styles.shadowProp]}>
+                            <FlatList
+                                data={Object.keys(selectedMenu)}
+                                renderItem={({ item }) => (
+                                    <View
+                                        style={{
+                                            flex: 1,
+                                            flexDirection: 'column',
+                                            marginHorizontal:2,
+                                            marginVertical: 7,
+                                            height:"30%"
+                                        }}>
+                                        <Text style={{ fontSize: 25 }}>{selectedMenu[item].name}</Text>
+                                        <Text style={{ fontSize: 25 }}>{selectedMenu[item].qnt}</Text>
+                                    </View>
+                                )}
+                                keyExtractor={(item) => item}
+                                numColumns={1}
+                                horizontal={false}
+                                scrollEnabled={true}
+                            />
                         </View>
-                    </>
-                ))
-            }
-        </ScrollView>
-        <View style={[styles.productMenu,styles.shadowProp]}>
-            <Text style={styles.productSubHeading}>Menu</Text>
-            {/* <Image source={require("../../assets/images/hamburger.png")} style={styles.productCatagoryElementLogo}/> */}
+                        <View style={[{ flex: 1 }, styles.shadowProp]}>
+
+                        </View>
+                    </View>
+                </View>
+            </View>
         </View>
-        <View style={[styles.productCart,styles.shadowProp]}>
-            <Text style={styles.productSubHeading}>Cart</Text>
-        </View>
-      </View>
-    </View>
-  )
+    )
 }
 
 export default product
 
 const styles = StyleSheet.create({
-    prductMain:{
-        height:'100vh',
-        minWidthwidth:'100vw',
-        flexDirection:'row',
-        
+    prductMain: {
+        height: '100vh',
+        minWidthwidth: '100vw',
+        flexDirection: 'row',
+
     },
-    productCatagory:{
-        flex:1,
+    productCatagory: {
+        flex: 1,
     },
-    productMenu:{
-        flex:4,
-        height:'100%',
-        textAlign:'center', 
+    productMenu: {
+        flex: 4,
+        height: '100%',
+        textAlign: 'center',
     },
-    productCart:{
-        flex:2,
-        height:'100%',
-        
+    productCart: {
+        flex: 2,
+        height: '100%',
+
     },
-    shadowProp:{
+    shadowProp: {
         shadowColor: '#171717',
-        shadowOffset: {width: 2, height: 2},
+        shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 3,
     },
-    prductCatagoryElement:{
-        height:80,
-        paddingLeft:"5%",
+    prductCatagoryElement: {
+        height: 80,
+        paddingLeft: "5%",
         textAlign: 'center',
         alignContent: 'center',
         alignItems: 'center',
-        flexDirection:"row",
-        borderRadius:5
+        flexDirection: "row",
+        borderRadius: 5
     },
-    productCatagoryElementLogo:{
-        height:"40%",
-        width:"15%",
-        borderRadius:80,
-        borderWidth:2,
-        borderColor:"black",
-        overflow:"hidden",
+    productCatagoryElementLogo: {
+        height: "40%",
+        width: "15%",
+        borderRadius: 80,
+        borderWidth: 2,
+        borderColor: "black",
+        overflow: "hidden",
     },
-    productSubHeading:{
-        margin:20, 
-        fontSize:30
+    productSubHeading: {
+        margin: 20,
+        fontSize: 30
     }
 })
