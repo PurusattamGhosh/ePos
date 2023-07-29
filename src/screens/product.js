@@ -5,10 +5,28 @@ import Styles from '../components/Styles'
 import Catagory from '../components/Catagories'
 import { FlatList } from 'react-native-web'
 import Menus from '../components/Menus'
+import { AntDesign } from '@expo/vector-icons';
 
 const product = ({ navigation }) => {
     const [selectedMenu, setSelectedMenu] = useState({})
     console.log(selectedMenu)
+    const increseQnt = (itemId) =>{
+        setSelectedMenu((prevSelectedMenu)=>{
+            const oldState = {...selectedMenu}
+            oldState[itemId].qnt += 1
+            return oldState
+        })
+    }
+    const decreaseQnt = (itemId) =>{
+        setSelectedMenu((prevSelectedMenu)=>{
+            const oldState = {...selectedMenu}
+            oldState[itemId].qnt -= 1
+            if(oldState[itemId].qnt==0){
+                delete oldState[itemId]
+            }
+            return oldState
+        })
+    }
     return (
         <View style={Styles.maincontainer}>
             <View style={styles.prductMain}>
@@ -44,7 +62,7 @@ const product = ({ navigation }) => {
                                 onPress={() => {
                                     setSelectedMenu((prevSelectedMenu) => ({
                                         ...prevSelectedMenu,
-                                        [item.id]: { name: item.name, qnt: 1 }
+                                        [item.id]: { name: item.name, qnt: 1 ,price:item.price}
                                     }));
                                 }}
                             >
@@ -81,8 +99,24 @@ const product = ({ navigation }) => {
                                             marginVertical: 7,
                                             height:"30%"
                                         }}>
-                                        <Text style={{ fontSize: 25 }}>{selectedMenu[item].name}</Text>
-                                        <Text style={{ fontSize: 25 }}>{selectedMenu[item].qnt}</Text>
+                                        <View style={{flex:3}}>
+                                            <Text>name: {selectedMenu[item].name}</Text> 
+                                            <Text>price: {selectedMenu[item].price}</Text> 
+                                        </View>
+                                        <View style={{ flex: 1, flexDirection:"row",borderColor:"black",borderWidth:"2"}}>
+                                            <TouchableOpacity 
+                                                onPress={()=>increseQnt(item)}
+                                            >
+
+                                                <AntDesign name="plus" size={24} color="black" />
+                                            </TouchableOpacity>
+                                            <Text>{selectedMenu[item].qnt}</Text>
+                                            <TouchableOpacity
+                                                onPress={()=>decreaseQnt(item)}
+                                            >
+                                                <AntDesign name="minus" size={24} color="black" />
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
                                 )}
                                 keyExtractor={(item) => item}
@@ -91,7 +125,8 @@ const product = ({ navigation }) => {
                                 scrollEnabled={true}
                             />
                         </View>
-                        <View style={[{ flex: 1 }, styles.shadowProp]}>
+                        
+                        <View style={[{ flex:1}, styles.shadowProp]}>
 
                         </View>
                     </View>
