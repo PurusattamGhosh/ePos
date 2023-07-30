@@ -3,8 +3,9 @@ import React from 'react'
 import { TextInput,Button } from 'react-native-paper';
 import Styles from '../components/Styles'
 
-const LogIn = () => {
-  return (
+const LogIn = (props) => {
+   const {navigation} = props;
+    return (
     <View style={Styles.maincontainer}>
       <View style={styles.loginMain}>
         <View style={styles.poster}>
@@ -18,19 +19,23 @@ const LogIn = () => {
             style={styles.loginFormLogo}
             />
             <Text style={styles.loginFormHeading}>SignIn</Text>
-            <Text style={styles.loginFormFieldDescription}>Username</Text>
+            {/* <Text style={styles.loginFormFieldDescription}>Username</Text> */}
             <TextInput
                 label="Email"
                 mode="outlined"
                 style={styles.loginFormPlaceholder}
+                left={<TextInput.Icon icon="account"/>}
             />    
-            <Text style={styles.loginFormFieldDescription}>Password</Text>
+            {/* <Text style={styles.loginFormFieldDescription}>Password</Text> */}
             <TextInput
                 label="Password"
                 mode="outlined"
                 style={styles.loginFormPlaceholder}
+                left={<TextInput.Icon icon="lock"/>}
             /> 
-            <Button mode="contained"  style={styles.LogInButton}>
+            <Button mode="contained"  style={styles.LogInButton}
+                onPress={()=>navigation.navigate('product')}
+            >
                 <Text style={{fontSize:20}}>LogIn</Text>
             </Button>
         </View>
@@ -81,7 +86,10 @@ const styles = StyleSheet.create({
         width:"10%",
         alignSelf:"center",
         marginBottom:2,
-        borderRadius:2
+        borderRadius:100,
+        overflow:"hidden",
+        borderColor:"black",
+        borderWidth:2
     },
     LogInButton:{
         width:"100%",
