@@ -30,6 +30,11 @@ const product = ({ navigation }) => {
             return oldState
         })
     }
+    const selectMenu = (item) =>{
+        if(!selectedMenu[item.id]=== undefined){
+            
+        }
+    }
     const calculateTotalAmount = (itemId) => {
         let totalAmount = 0;
         for (const itemId in selectedMenu) {
@@ -83,10 +88,12 @@ const product = ({ navigation }) => {
                                     height: "100%"
                                 }}
                                 onPress={() => {
-                                    setSelectedMenu((prevSelectedMenu) => ({
-                                        ...prevSelectedMenu,
-                                        [item.id]: { name: item.name, qnt: 1 ,price:item.price}
-                                    }));
+                                    if(selectedMenu[item.id]===undefined){
+                                        setSelectedMenu((prevSelectedMenu) => ({
+                                            ...prevSelectedMenu,
+                                            [item.id]: { name: item.name, qnt: 1 ,price:item.price}
+                                        }))
+                                    }    
                                 }}
                             >
                                 <View style={[{ flex: 1, flexDirection: "row", justifyContent: "space-around",marginVertical:6 }, styles.shadowProp]}>
@@ -109,36 +116,50 @@ const product = ({ navigation }) => {
                 </View>
                 <View style={[styles.productCart, styles.shadowProp]}>
                     <Text style={styles.productSubHeading}>Cart</Text>
-                    <View style={{ flex: 1, flexDirection: "column" ,}}>
+                    <View style={{ flex: 1, flexDirection: "column" ,backgroundColor:'#f1f2e9'}}>
                         <View style={[{ flex: 3 }, styles.shadowProp]}>
                             <FlatList 
                                 data={Object.keys(selectedMenu)}
                                 renderItem={({ item }) => (
                                     <View
-                                        style={[{
-                                            width:"80%",
+                                        style={{
+                                            width:"90%",
                                             height:"80%",
                                             flexDirection: 'column',
-                                            marginHorizontal:"10%",
-                                            marginVertical: 20,
-                                        }, styles.shadowProp]}>
+                                            alignSelf:'center',
+                                            marginVertical: '2%',
+                                            borderStyle: "solid",
+                                            borderWidth:2,
+                                            borderColor:"black",
+                                            borderRadius:2
+                                        }}>
                                             
-                                        <View style={[{flex:3,flexDirection:"row"},styles.shadowProp]}>
-                                            <Text style={[{width:"40%", fontSize: 20, textAlign: "center",fontWeight:"600" },styles.shadowProp]}>{selectedMenu[item].name}</Text> 
-                                            <View style={[{width:"60%",},]}>
+                                        <View style={[{flex:3,flexDirection:"row",backgroundColor:'white'},styles.shadowProp]}>
+                                            <Text style={[{width:"60%", fontSize: 20, textAlign: "center",fontWeight:"600" },styles.shadowProp]}>{selectedMenu[item].name}</Text> 
+                                            <View style={{width:"40%",}}>
                                             <Text style={{fontSize:15,fontWeight:"500",marginLeft:"10%",margintop:"10%"}}>price: {selectedMenu[item].price}</Text> 
                                             <Text style={{fontSize:15,fontWeight:"500",marginLeft:"10%",margintop:"10%"}}>Amount: {selectedMenu[item].price*selectedMenu[item].qnt}</Text>
                                             </View>
                                             
                                         </View>
-                                        <View style={[{ flex: 1,backgroundColor:"yellow", flexDirection:"row",width:"70%",alignSelf:"center",marginVertical:"2%",borderRadius:10,justifyContent:'space-around'}]}>
-                                            <TouchableOpacity 
-                                                onPress={()=>increseQnt(item)}
-                                            >
-
+                                        <View 
+                                            style={{ 
+                                                flex: 1,
+                                                backgroundColor:"yellow", 
+                                                flexDirection:"row",width:"100%",
+                                                alignSelf:"center",borderRadius:2,
+                                                justifyContent:'space-around',
+                                                padding:'2%',
+                                                borderStyle: "solid",
+                                                borderTopWidth:2,
+                                                borderTopColor:"black",
+                                                borderRadius:2
+                                            }}
+                                        >
+                                            <TouchableOpacity onPress={()=>increseQnt(item)}>
                                                 <AntDesign name="plus" size={24} color="black" fontWeight="800" />
                                             </TouchableOpacity>
-                                            <Text style={{fontSize:15,fontWeight:"500"}}>{selectedMenu[item].qnt}</Text>
+                                            <Text style={{fontSize:25,fontWeight:"400",alignSelf:'center'}}>{selectedMenu[item].qnt}</Text>
                                             <TouchableOpacity
                                                 onPress={()=>decreaseQnt(item)}
                                             >
@@ -161,10 +182,22 @@ const product = ({ navigation }) => {
                                 <Text style={{fontSize:15,fontWeight:"500",marginLeft:"10%",marginVertical:"2%"}}>CGST:9%</Text>
                                 <Text style={{fontSize:15,fontWeight:"500",marginLeft:"10%",marginVertical:"2%"}}>SGST:9%</Text>
                             </View>
-                            <View style={[{ flex:1,}, styles.shadowProp]}>
+                            <View style={[{ flex:1, flexDirection:'column',justifyContent:'space-between'}, styles.shadowProp]}>
                                 <Text style={{fontSize:20,fontWeight:"500",marginLeft:"5%",marginTop:"5%"}}>Payable:{amount+(amount*(18/100))}</Text>
-                                <button style={{marginTop:"20%",width:"50%",marginLeft:"25%"}}>
-                                    <Text style={{fontSize:15,fontWeight:"500"}}>Check-Out</Text></button>
+                                <TouchableOpacity
+                                    onPress={()=>navigation.navigate('CustomerDetails')}
+                                    style={{
+                                        height:'30%',
+                                        backgroundColor:'white',
+                                        justifyContent:'center',
+                                        borderStyle: "solid",
+                                        borderWidth:2,
+                                        borderColor:"black",
+                                        borderRadius:2
+                                    }}
+                                >
+                                    <Text style={{fontSize:15,fontWeight:"500", textAlign:'center'}}>Check-Out</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                     </View>
