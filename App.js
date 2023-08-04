@@ -32,7 +32,7 @@ export default function App() {
         <Stack.Navigator>
         <Stack.Screen name='login' component={LogIn} options={{headerShown:false}}/>
           <Stack.Screen name='product' component={product} options={{headerShown:false}}/>
-          <Stack.Screen name='CoustomerDetails' component={CustomerDetails} options={{headerShown:false}}/>
+          <Stack.Screen name='CustomerDetails' component={CustomerDetails} options={{headerShown:false}}/>
           <Stack.Screen name='Home' component={Home} options={{headerShown:false}}/>
           
           

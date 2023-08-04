@@ -8,7 +8,8 @@ import Menus from '../components/Menus'
 import { AntDesign } from '@expo/vector-icons';
 
 
-const product = ({ navigation }) => {
+const product = (props) => {
+    const {navigation} = props;
     const [selectedMenu, setSelectedMenu] = useState({})
     const[amount,setAmount]=useState(0)
     console.log("amount",amount)
